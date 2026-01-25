@@ -22,10 +22,10 @@ class TransactionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'bank_account_id' => BankAccount::factory(),
+            'bank_account_id' => fn (array $attributes) => BankAccount::factory()->state(['user_id' => $attributes['user_id']]),
             'description' => fake()->sentence(3),
-            'category_id' => Category::factory(),
-            'budget_id' => Budget::factory(),
+            'category_id' => fn (array $attributes) => Category::factory()->state(['user_id' => $attributes['user_id']]),
+            'budget_id' => fn (array $attributes) => Budget::factory()->state(['user_id' => $attributes['user_id']]),
             'notes' => fake()->sentence(5),
             'amount' => fake()->numberBetween(100, 10000),
         ];
