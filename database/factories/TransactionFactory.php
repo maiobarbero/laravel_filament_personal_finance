@@ -28,6 +28,7 @@ class TransactionFactory extends Factory
             'budget_id' => fn (array $attributes) => Budget::factory()->state(['user_id' => $attributes['user_id']]),
             'note' => fake()->sentence(5),
             'amount' => fake()->numberBetween(100, 10000),
+            'date' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
