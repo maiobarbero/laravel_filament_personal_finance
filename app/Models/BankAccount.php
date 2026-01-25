@@ -9,4 +9,10 @@ class BankAccount extends Model
 {
     /** @use HasFactory<\Database\Factories\BankAccountFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'balance',
+    ];
 }

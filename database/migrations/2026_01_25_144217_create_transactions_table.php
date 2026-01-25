@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('description');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('budget_id')->constrained()->cascadeOnDelete();
-            $table->text('notes')->nullable();
+            $table->date('date');
+            $table->text('note')->nullable();
             $table->unsignedInteger('amount');
             $table->timestamps();
         });
