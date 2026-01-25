@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\BudgetType;
 
 class Budget extends Model
 {
@@ -19,5 +20,5 @@ class Budget extends Model
 
     protected $cast = [
         'type' => BudgetType::class,
-    ]
+    ];
 }
