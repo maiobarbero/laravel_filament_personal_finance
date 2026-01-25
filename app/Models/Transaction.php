@@ -21,6 +21,13 @@ class Transaction extends Model
         'date',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'amount' => \App\Casts\MoneyCast::class,
+        ];
+    }
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);

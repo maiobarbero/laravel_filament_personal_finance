@@ -16,6 +16,13 @@ class BankAccount extends Model
         'balance',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'balance' => \App\Casts\MoneyCast::class,
+        ];
+    }
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);

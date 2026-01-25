@@ -18,9 +18,13 @@ class Budget extends Model
         'type',
     ];
 
-    protected $casts = [
-        'type' => BudgetType::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'type' => BudgetType::class,
+            'amount' => \App\Casts\MoneyCast::class,
+        ];
+    }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
