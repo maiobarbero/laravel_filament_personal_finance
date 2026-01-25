@@ -26,7 +26,7 @@ class TransactionFactory extends Factory
             'description' => fake()->sentence(3),
             'category_id' => fn (array $attributes) => Category::factory()->state(['user_id' => $attributes['user_id']]),
             'budget_id' => fn (array $attributes) => Budget::factory()->state(['user_id' => $attributes['user_id']]),
-            'notes' => fake()->sentence(5),
+            'note' => fake()->sentence(5),
             'amount' => fake()->numberBetween(100, 10000),
         ];
     }
