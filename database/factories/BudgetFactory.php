@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Budget>
  */
 class BudgetFactory extends Factory
 {
-     public array $names = [
+    public array $names = [
         'Housing',
         'Transportation',
         'Food provided',
@@ -33,6 +33,7 @@ class BudgetFactory extends Factory
         'Childcare',
         'Pets',
     ];
+
     /**
      * Define the model's default state.
      *

@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 use App\Models\Budget;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
 class BudgetSeeder extends Seeder
 {
     /**
@@ -14,12 +13,12 @@ class BudgetSeeder extends Seeder
      */
     public function run(): void
     {
-    // select existing users
-    $users = User::all();
-    foreach ($users as $user) {
-        Budget::factory()->count(3)->create([
-            'user_id' => $user->id,
-        ]);
-    }
+        // select existing users
+        $users = User::all();
+        foreach ($users as $user) {
+            Budget::factory()->count(3)->create([
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }

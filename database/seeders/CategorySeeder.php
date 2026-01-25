@@ -21,13 +21,13 @@ class CategorySeeder extends Seeder
 
         foreach ($usersConfig as $email => $count) {
             $user = User::where('email', $email)->first();
-            
+
             if (! $user) {
                 continue;
             }
 
-            $availableNames = (new CategoryFactory())->names;
-            
+            $availableNames = (new CategoryFactory)->names;
+
             shuffle($availableNames);
 
             $selectedNames = array_slice($availableNames, 0, $count);

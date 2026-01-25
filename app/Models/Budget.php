@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\BudgetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\BudgetType;
 
 class Budget extends Model
 {

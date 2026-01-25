@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('amount')->default(0);
             $table->string('type')->default('fixed');
             $table->timestamps();
-            $table->unique(['user_id','name']);
+            $table->unique(['user_id', 'name']);
         });
     }
 };
