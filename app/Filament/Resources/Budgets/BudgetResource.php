@@ -61,6 +61,10 @@ class BudgetResource extends Resource
                     ->sortable(),
                 TextColumn::make('type')
                     ->badge()
+                    ->color(fn (BudgetType $state): string => match ($state) {
+                        BudgetType::Reset => 'success',
+                        BudgetType::Rollover => 'warning',
+                    })
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
