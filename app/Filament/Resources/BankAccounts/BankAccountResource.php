@@ -50,7 +50,7 @@ class BankAccountResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('balance')
-                    ->numeric()
+                    ->money('EUR')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

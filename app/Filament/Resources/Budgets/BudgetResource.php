@@ -57,7 +57,7 @@ class BudgetResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->numeric()
+                    ->money('EUR')
                     ->sortable(),
                 TextColumn::make('type')
                     ->badge()
