@@ -14,20 +14,22 @@ class TransactionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('bankAccount.name')
-                    ->searchable(),
-                TextColumn::make('description')
-                    ->searchable(),
-                TextColumn::make('category.name')
-                    ->searchable(),
-                TextColumn::make('budget.name')
-                    ->searchable(),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('amount')
-                    ->numeric()
+                    ->money('EUR')
                     ->sortable(),
+                TextColumn::make('description')
+                    ->searchable(),
+                TextColumn::make('bankAccount.name')
+                    ->searchable(true),
+                TextColumn::make('category.name')
+                    ->searchable(true),
+                TextColumn::make('budget.name')
+                    ->searchable(true),
+                TextColumn::make('note')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
