@@ -22,8 +22,8 @@ class BoostSeeder extends Seeder
             $this->command->info('User with ID 1 not found. Creating one...');
             $user = User::factory()->create([
                 'id' => 1,
-                'name' => 'Demo User',
-                'email' => 'demo@example.com',
+                'name' => 'admin',
+                'email' => 'admin@admin.com',
             ]);
         }
 
