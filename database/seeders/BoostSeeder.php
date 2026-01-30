@@ -18,7 +18,7 @@ class BoostSeeder extends Seeder
     {
         $user = User::find(1);
 
-        if (!$user) {
+        if (! $user) {
             $this->command->info('User with ID 1 not found. Creating one...');
             $user = User::factory()->create([
                 'id' => 1,
@@ -27,7 +27,7 @@ class BoostSeeder extends Seeder
             ]);
         }
 
-        $this->command->info('Seeding data for User ID: ' . $user->id);
+        $this->command->info('Seeding data for User ID: '.$user->id);
 
         // Clear existing data for this user to avoid duplication if run multiple times
         // OR just append. The prompt says "Add 1000 transaction", implies appending or fresh.
@@ -97,10 +97,10 @@ class BoostSeeder extends Seeder
 
             // Simplified logic to distribute meaningful data
             if ($rand <= 5) {
-                // Salary (~5% chance? maybe too high for 1000 transactions over 1 year = ~80 transactions. Should be 12-13. 
+                // Salary (~5% chance? maybe too high for 1000 transactions over 1 year = ~80 transactions. Should be 12-13.
                 // Let's just randomize broadly and correct logic slightly or just accept randomness.)
                 // actually 1000 transactions in 13 months is ~2.5 per day.
-                // Salary should be ~13 total. 
+                // Salary should be ~13 total.
                 // Let's force Salary on specific days? No, random is fine but weight should be low.
                 // Re-think: Random category selection.
 
@@ -135,7 +135,7 @@ class BoostSeeder extends Seeder
                 $budget = $budgets['Rent Budget'];
             } elseif ($catName === 'Groceries') {
                 $amount = -rand(20, 200);
-                $description = 'Grocery Store ' . rand(1, 5);
+                $description = 'Grocery Store '.rand(1, 5);
                 $budget = $budgets['Groceries Budget'];
             } elseif ($catName === 'Utilities') {
                 $amount = -rand(50, 250);
@@ -149,11 +149,11 @@ class BoostSeeder extends Seeder
 
             // Occasional savings transfer
             if ($catName === 'Salary' && rand(1, 2) === 1) {
-                // Not a transaction in strict sense if we are just logging lines, 
+                // Not a transaction in strict sense if we are just logging lines,
                 // but let's just stick to the generated one.
             }
 
-            // Randomly assign to savings account if entertainment or utility? 
+            // Randomly assign to savings account if entertainment or utility?
             // Nah, mostly checking.
             if ($catName === 'Entertainment' && rand(1, 10) === 1) {
                 $bankAccount = $savings;
@@ -188,7 +188,7 @@ class BoostSeeder extends Seeder
             Transaction::insert($chunk); // Raw insert, so amount must be in cents.
         }
 
-        $this->command->info('Successfully created ' . count($transactions) . ' transactions.');
+        $this->command->info('Successfully created '.count($transactions).' transactions.');
 
         // Update balances? BankAccount usually requires manual update or observers.
         // Assuming no observers for now or user doesn't care about synced balance for this seed.
@@ -206,7 +206,7 @@ class BoostSeeder extends Seeder
         // We want to save CENTS to DB if using DB facade, or Dollars if using Model.
 
         // Let's use DB to be safe and raw.
-        // wait, $checkingBalance is sum of 'amount' column. 'amount' column is cents. 
+        // wait, $checkingBalance is sum of 'amount' column. 'amount' column is cents.
         // So $checkingBalance is total cents.
 
         // BankAccount 'balance' column presumably stores cents too.
