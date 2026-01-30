@@ -8,4 +8,11 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTransaction extends CreateRecord
 {
     protected static string $resource = TransactionResource::class;
+
+    public function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth()->id();
+
+        return $data;
+    }
 }

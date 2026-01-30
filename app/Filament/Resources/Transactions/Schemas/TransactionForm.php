@@ -14,19 +14,16 @@ class TransactionForm
     {
         return $schema
             ->components([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
                 Select::make('bank_account_id')
-                    ->relationship('bankAccount', 'name')
+                    ->relationship('bankAccount', 'name', fn ($query) => $query->where('user_id', auth()->id()))
                     ->required(),
                 TextInput::make('description')
                     ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'name')
+                    ->relationship('category', 'name', fn ($query) => $query->where('user_id', auth()->id()))
                     ->required(),
                 Select::make('budget_id')
-                    ->relationship('budget', 'name')
+                    ->relationship('budget', 'name', fn ($query) => $query->where('user_id', auth()->id()))
                     ->required(),
                 DatePicker::make('date')
                     ->required(),
