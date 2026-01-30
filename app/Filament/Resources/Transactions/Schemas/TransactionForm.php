@@ -66,11 +66,9 @@ class TransactionForm
                     ->relationship('bankAccount', 'name', fn ($query) => $query->where('user_id', auth()->id()))
                     ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'name', fn ($query) => $query->where('user_id', auth()->id()))
-                    ->required(),
+                    ->relationship('category', 'name', fn ($query) => $query->where('user_id', auth()->id())),
                 Select::make('budget_id')
-                    ->relationship('budget', 'name', fn ($query) => $query->where('user_id', auth()->id()))
-                    ->required(),
+                    ->relationship('budget', 'name', fn ($query) => $query->where('user_id', auth()->id())),
                 Textarea::make('note')
                     ->columnSpanFull(),
             ]);
