@@ -33,8 +33,13 @@ class BudgetsOverview extends StatsOverviewWidget
             ->get();
 
         $stats = [];
+        $diffInDays = $startDate->diffInDays($endDate);
 
         foreach ($budgets as $budget) {
+            if ($budget->type === BudgetType::Reset && $diffInDays < 28) {
+                continue;
+            }
+
             $budgetAmount = $this->calculateBudgetAmount($budget, $startDate, $endDate);
             $spent = $this->calculateSpent($budget);
             $percentage = $budgetAmount > 0 ? ($spent / $budgetAmount) * 100 : 0;
