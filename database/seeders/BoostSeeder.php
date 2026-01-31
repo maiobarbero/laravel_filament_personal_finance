@@ -24,6 +24,7 @@ class BoostSeeder extends Seeder
                 'id' => 1,
                 'name' => 'admin',
                 'email' => 'admin@admin.com',
+                'password' => 'admin'
             ]);
         }
 
@@ -75,12 +76,14 @@ class BoostSeeder extends Seeder
 
         // 4. Create 1000 Transactions
         $transactions = [];
-        $startDate = Carbon::create(2025, 1, 1);
-        $endDate = Carbon::create(2026, 1, 31);
 
         // Let's generate them.
         for ($i = 0; $i < 1000; $i++) {
-            $date = $startDate->copy()->addSeconds(rand(0, $endDate->diffInSeconds($startDate)));
+            // Generate a random date between 01-01-2025 and now();
+            $date = Carbon::createFromTimestamp(rand(
+                Carbon::parse('2025-01-01')->timestamp,
+                now()->timestamp
+            ));
 
             // Randomly decide type based on category weights
             // Salary: Low probability (once a month approx)
