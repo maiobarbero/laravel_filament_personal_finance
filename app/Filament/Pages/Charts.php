@@ -15,7 +15,7 @@ class Charts extends PagE
     protected function getHeaderWidgets(): array
     {
         return [
-            \App\Filament\Widgets\ExpensesPieChart::class,
+            \App\Filament\PageWidgets\ExpensesPieChart::class,
         ];
     }
 }
