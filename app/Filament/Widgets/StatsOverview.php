@@ -6,7 +6,7 @@ use App\Models\BankAccount;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class BalanceOverview extends StatsOverviewWidget
+class StatsOverview extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
