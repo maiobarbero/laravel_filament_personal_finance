@@ -35,11 +35,8 @@ class BudgetsOverview extends StatsOverviewWidget
         $stats = [];
         $diffInDays = $startDate->diffInDays($endDate);
 
+        /** @var Budget $budget */
         foreach ($budgets as $budget) {
-            if ($budget->type === BudgetType::Reset && $diffInDays < 28) {
-                continue;
-            }
-
             $budgetAmount = $this->calculateBudgetAmount($budget, $startDate, $endDate);
             $spent = $this->calculateSpent($budget);
             $percentage = $budgetAmount > 0 ? ($spent / $budgetAmount) * 100 : 0;
@@ -69,14 +66,9 @@ class BudgetsOverview extends StatsOverviewWidget
         $typeLabel = $budget->type === BudgetType::Rollover ? '🔄' : '🔁';
         $spentFormatted = Number::currency($spent, 'EUR', 'en');
         $budgetFormatted = Number::currency($budgetAmount, 'EUR', 'en');
-
-        if ($remaining < 0) {
-            return "{$typeLabel} {$spentFormatted} / {$budgetFormatted} • Over budget!";
-        }
-
         $remainingFormatted = Number::currency($remaining, 'EUR', 'en');
 
-        return "{$typeLabel} {$spentFormatted} / {$budgetFormatted} • {$remainingFormatted} left";
+        return "{$typeLabel} Spent: {$spentFormatted} / {$budgetFormatted} • {$remainingFormatted} left";
     }
 
     private function getColorForPercentage(float $percentage): string
@@ -130,18 +122,27 @@ class BudgetsOverview extends StatsOverviewWidget
 
     private function calculateBudgetAmount(Budget $budget, Carbon $startDate, Carbon $endDate): float
     {
+        $monthsDiff = $this->calculateMonthsDifference($startDate, $endDate);
+
         if ($budget->type === BudgetType::Reset) {
-            return (float) $budget->amount;
+            $multiplier = max(1, $monthsDiff);
+
+            return (float) $budget->amount * $multiplier;
         }
 
-        $monthsDiff = $startDate->copy()->startOfMonth()->diffInMonths($endDate->copy()->startOfMonth()) + 1;
-
-        $monthlyAmount = (float) $budget->amount;
-        $totalBudget = $monthlyAmount * $monthsDiff;
-
+        // For Rollover, it is: (Monthly Amount * Months) + Previous Unspent
+        $totalBudget = (float) $budget->amount * $monthsDiff;
         $previousUnspent = $this->calculatePreviousUnspent($budget, $startDate);
 
         return $totalBudget + $previousUnspent;
+    }
+
+    private function calculateMonthsDifference(Carbon $startDate, Carbon $endDate): int
+    {
+
+        $diff = $startDate->copy()->startOfMonth()->diffInMonths($endDate->copy()->startOfMonth());
+
+        return (int) $diff + 1;
     }
 
     private function calculatePreviousUnspent(Budget $budget, Carbon $startDate): float
@@ -156,7 +157,7 @@ class BudgetsOverview extends StatsOverviewWidget
         $previousStartDate = $createdAt->copy()->startOfMonth();
         $previousEndDate = $startOfPeriod->copy()->subDay();
 
-        $monthsBeforePeriod = $previousStartDate->diffInMonths($previousEndDate->copy()->startOfMonth()) + 1;
+        $monthsBeforePeriod = $this->calculateMonthsDifference($previousStartDate, $previousEndDate);
 
         $totalPreviousBudget = (float) $budget->amount * $monthsBeforePeriod;
 
@@ -166,7 +167,7 @@ class BudgetsOverview extends StatsOverviewWidget
             ->where('amount', '<', 0)
             ->sum('amount');
 
-        $previousSpent = abs($previousSpent) / 100;
+        $previousSpent = abs($previousSpent);
 
         return max(0, $totalPreviousBudget - $previousSpent);
     }
