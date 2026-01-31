@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\BankAccount;
 use App\Models\Transaction;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Collection;
@@ -11,10 +12,18 @@ use Illuminate\Support\Number;
 
 class StatsOverview extends StatsOverviewWidget
 {
+    use InteractsWithPageFilters;
+
     protected function getStats(): array
     {
+        $startDate = $this->filters['startDate'] ?? null;
+        $endDate = $this->filters['endDate'] ?? null;
+
         $accounts = BankAccount::select('id', 'name', 'balance')->where('user_id', auth()->id())->get();
-        $transactions = Transaction::where('user_id', auth()->id())->get();
+        $transactions = Transaction::where('user_id', auth()->id())
+            ->when($startDate, fn ($query) => $query->whereDate('date', '>=', $startDate))
+            ->when($endDate, fn ($query) => $query->whereDate('date', '<=', $endDate))
+            ->get();
         $stats = [];
 
         $stats[] = Stat::make('Total Balance', Number::currency($this->calculateTotalBalance($accounts), 'EUR', 'en'));
@@ -26,6 +35,7 @@ class StatsOverview extends StatsOverviewWidget
         $stats[] = Stat::make('Expenses', Number::currency($this->calculateExpenses($transactions), 'EUR', 'en'));
         $stats[] = Stat::make('Incomes', Number::currency($this->calculateIncomes($transactions), 'EUR', 'en'));
         $stats[] = Stat::make('Cash Flow', Number::currency($this->calculateCashFlow($transactions), 'EUR', 'en'));
+
         return $stats;
     }
 
