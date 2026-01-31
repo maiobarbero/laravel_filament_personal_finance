@@ -6,12 +6,14 @@ use App\Models\BankAccount;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Collection;
+use App\Models\Transaction;
 
 class StatsOverview extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
         $accounts = BankAccount::select('id', 'name', 'balance')->where('user_id', auth()->id())->get();
+        $transactions = Transaction::where('user_id', auth()->id())->get();
         $stats = [];
 
         $stats[] = Stat::make('Total Balance', "€ {$this->calculateTotalBalance($accounts)}");
@@ -20,10 +22,14 @@ class StatsOverview extends StatsOverviewWidget
             $stats[] = Stat::make($account->name, "€ {$account->balance}");
         }
 
+        $stats[] = Stat::make("Expenses", "€ {$this->calculateExpenses($transactions)}");
+        $stats[] = Stat::make("Incomes", "€ {$this->calculateIncomes($transactions)}");
+        $stats[] = Stat::make("Cash Flow", "€ {$this->calculateCashFlow($transactions)}");
+
         return $stats;
     }
 
-    protected function calculateTotalBalance(Collection $accounts): float
+    private function calculateTotalBalance(Collection $accounts): float
     {
         $totalBalance = 0;
         foreach ($accounts as $account) {
@@ -32,4 +38,30 @@ class StatsOverview extends StatsOverviewWidget
 
         return $totalBalance;
     }
+
+    private function calculateExpenses(Collection $transactions):float{
+        $expenses = 0;
+        foreach ($transactions as $transaction) {
+            if ($transaction->amount < 0) {
+                $expenses += abs($transaction->amount);
+            }
+        }
+        return $expenses;
+    }
+
+    private function calculateIncomes(Collection $transactions):float{
+        $incomes = 0;
+        foreach ($transactions as $transaction) {
+            if ($transaction->amount > 0) {
+                $incomes += $transaction->amount;
+            }
+        }
+        return $incomes;
+    }
+
+    private function calculateCashFlow(Collection $transactions):float{
+        return $this->calculateIncomes($transactions) - $this->calculateExpenses($transactions);
+    }
+
+
 }
