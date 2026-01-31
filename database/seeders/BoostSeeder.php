@@ -24,7 +24,7 @@ class BoostSeeder extends Seeder
                 'id' => 1,
                 'name' => 'admin',
                 'email' => 'admin@admin.com',
-                'password' => 'admin'
+                'password' => 'admin',
             ]);
         }
 
