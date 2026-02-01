@@ -29,7 +29,7 @@ class TransactionObserver
     {
         $originalBankAccountId = $transaction->getOriginal('bank_account_id');
         $originalAmount = $transaction->getOriginal('amount');
-        
+
         // Revert old transaction effect
         if ($originalBankAccountId) {
             $originalBankAccount = \App\Models\BankAccount::find($originalBankAccountId);

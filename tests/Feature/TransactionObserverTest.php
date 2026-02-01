@@ -47,7 +47,7 @@ it('updates balances when transaction is moved to another bank account', functio
     $user = User::factory()->create();
     $bankAccountA = BankAccount::factory()->for($user)->create(['balance' => 1000]);
     $bankAccountB = BankAccount::factory()->for($user)->create(['balance' => 1000]);
-    
+
     $transaction = Transaction::factory()->for($user)->for($bankAccountA)->create(['amount' => 500]);
 
     // Act

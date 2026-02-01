@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\BelongsToUser;
 
 class Transaction extends Model
 {
+    use BelongsToUser;
+
     /** @use HasFactory<\Database\Factories\TransactionFactory> */
     use HasFactory;
-    use BelongsToUser;
 
     protected $fillable = [
         'user_id',
