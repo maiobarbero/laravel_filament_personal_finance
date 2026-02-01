@@ -49,8 +49,8 @@ class TransactionsTable
                 SelectFilter::make('transaction_type')
                     ->label('Tipo')
                     ->options([
-                        'income' => 'Entrate',
-                        'expense' => 'Uscite',
+                        'income' => 'Income',
+                        'expense' => 'Expense',
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
