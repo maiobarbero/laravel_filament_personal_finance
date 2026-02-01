@@ -63,12 +63,12 @@ class TransactionForm
                 TextInput::make('description')
                     ->required(),
                 Select::make('bank_account_id')
-                    ->relationship('bankAccount', 'name', fn ($query) => $query->where('user_id', auth()->id()))
+                    ->relationship('bankAccount', 'name')
                     ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'name', fn ($query) => $query->where('user_id', auth()->id())),
+                    ->relationship('category', 'name'),
                 Select::make('budget_id')
-                    ->relationship('budget', 'name', fn ($query) => $query->where('user_id', auth()->id())),
+                    ->relationship('budget', 'name'),
                 Textarea::make('note')
                     ->columnSpanFull(),
             ]);

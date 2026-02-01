@@ -22,7 +22,6 @@ class ExpensesPieChart extends ChartWidget
 
         $data = Transaction::query()
             ->with('category')
-            ->where('user_id', auth()->id())
             ->where('amount', '<', 0)
             ->whereNotNull('category_id')
             ->when($startDate, fn ($query) => $query->whereDate('date', '>=', $startDate))

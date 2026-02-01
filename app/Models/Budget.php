@@ -5,11 +5,13 @@ namespace App\Models;
 use App\Enums\BudgetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\BelongsToUser;
 
 class Budget extends Model
 {
     /** @use HasFactory<\Database\Factories\BudgetFactory> */
     use HasFactory;
+    use BelongsToUser;
 
     protected $fillable = [
         'user_id',

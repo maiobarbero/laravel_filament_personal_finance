@@ -19,8 +19,8 @@ class StatsOverview extends StatsOverviewWidget
         $startDate = $this->filters['startDate'] ?? null;
         $endDate = $this->filters['endDate'] ?? null;
 
-        $accounts = BankAccount::select('id', 'name', 'balance')->where('user_id', auth()->id())->get();
-        $transactions = Transaction::where('user_id', auth()->id())
+        $accounts = BankAccount::select('id', 'name', 'balance')->get();
+        $transactions = Transaction::query()
             ->when($startDate, fn ($query) => $query->whereDate('date', '>=', $startDate))
             ->when($endDate, fn ($query) => $query->whereDate('date', '<=', $endDate))
             ->get();

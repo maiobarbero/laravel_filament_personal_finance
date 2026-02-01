@@ -25,7 +25,7 @@ class BudgetsOverview extends StatsOverviewWidget
         $endDate = $endDate ? Carbon::parse($endDate) : now();
 
         $budgets = Budget::query()
-            ->where('user_id', auth()->id())
+
             ->with(['transactions' => function ($query) use ($startDate, $endDate) {
                 $query->whereDate('date', '>=', $startDate)
                     ->whereDate('date', '<=', $endDate);
