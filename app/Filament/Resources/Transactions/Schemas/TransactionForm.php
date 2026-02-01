@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Transactions\Schemas;
 
+use App\Enums\BudgetType;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -64,11 +65,35 @@ class TransactionForm
                     ->required(),
                 Select::make('bank_account_id')
                     ->relationship('bankAccount', 'name')
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('balance')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                    ])
                     ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'name'),
+                    ->relationship('category', 'name')
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required(),
+                    ]),
                 Select::make('budget_id')
-                    ->relationship('budget', 'name'),
+                    ->relationship('budget', 'name')
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('amount')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                        Select::make('type')
+                            ->options(BudgetType::class)
+                            ->default('fixed')
+                            ->required(),
+                    ]),
                 Textarea::make('note')
                     ->columnSpanFull(),
             ]);
