@@ -29,7 +29,7 @@ class BudgetResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('user_id', auth()->id());
+        return parent::getEloquentQuery();
     }
 
     public static function form(Schema $schema): Schema
@@ -57,7 +57,7 @@ class BudgetResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->money('EUR')
+                    ->money(fn () => auth()->user()->currency, locale: fn () => auth()->user()->locale)
                     ->sortable(),
                 TextColumn::make('type')
                     ->badge()

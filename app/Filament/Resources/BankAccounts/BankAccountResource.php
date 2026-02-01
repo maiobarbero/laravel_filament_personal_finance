@@ -26,7 +26,7 @@ class BankAccountResource extends Resource
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        return parent::getEloquentQuery()->where('user_id', auth()->id());
+        return parent::getEloquentQuery();
     }
 
     public static function form(Schema $schema): Schema
@@ -50,7 +50,7 @@ class BankAccountResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('balance')
-                    ->money('EUR')
+                    ->money(fn () => auth()->user()->currency, locale: fn () => auth()->user()->locale)
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
