@@ -21,7 +21,7 @@ class TransactionsTable
                     ->date()
                     ->sortable(),
                 TextColumn::make('amount')
-                    ->money('EUR')
+                    ->money(fn () => auth()->user()->currency, locale: fn () => auth()->user()->locale)
                     ->sortable()
                     ->badge()
                     ->color(fn ($state): string => $state >= 0 ? 'success' : 'danger')

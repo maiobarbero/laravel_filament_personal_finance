@@ -57,7 +57,7 @@ class BudgetResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->money('EUR')
+                    ->money(fn () => auth()->user()->currency, locale: fn () => auth()->user()->locale)
                     ->sortable(),
                 TextColumn::make('type')
                     ->badge()

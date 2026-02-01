@@ -26,15 +26,15 @@ class StatsOverview extends StatsOverviewWidget
             ->get();
         $stats = [];
 
-        $stats[] = Stat::make('Total Balance', Number::currency($this->calculateTotalBalance($accounts), 'EUR', 'en'));
+        $stats[] = Stat::make('Total Balance', Number::currency($this->calculateTotalBalance($accounts), auth()->user()->currency, auth()->user()->locale));
 
         foreach ($accounts as $account) {
-            $stats[] = Stat::make($account->name, Number::currency($account->balance, 'EUR', 'en'));
+            $stats[] = Stat::make($account->name, Number::currency($account->balance, auth()->user()->currency, auth()->user()->locale));
         }
 
-        $stats[] = Stat::make('Expenses', Number::currency($this->calculateExpenses($transactions), 'EUR', 'en'));
-        $stats[] = Stat::make('Incomes', Number::currency($this->calculateIncomes($transactions), 'EUR', 'en'));
-        $stats[] = Stat::make('Cash Flow', Number::currency($this->calculateCashFlow($transactions), 'EUR', 'en'));
+        $stats[] = Stat::make('Expenses', Number::currency($this->calculateExpenses($transactions), auth()->user()->currency, auth()->user()->locale));
+        $stats[] = Stat::make('Incomes', Number::currency($this->calculateIncomes($transactions), auth()->user()->currency, auth()->user()->locale));
+        $stats[] = Stat::make('Cash Flow', Number::currency($this->calculateCashFlow($transactions), auth()->user()->currency, auth()->user()->locale));
 
         return $stats;
     }

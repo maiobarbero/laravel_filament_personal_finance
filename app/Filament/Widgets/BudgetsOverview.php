@@ -64,9 +64,9 @@ class BudgetsOverview extends StatsOverviewWidget
     private function formatBudgetDescription(Budget $budget, float $spent, float $budgetAmount, float $remaining): string
     {
         $typeLabel = $budget->type === BudgetType::Rollover ? '🔄' : '🔁';
-        $spentFormatted = Number::currency($spent, 'EUR', 'en');
-        $budgetFormatted = Number::currency($budgetAmount, 'EUR', 'en');
-        $remainingFormatted = Number::currency($remaining, 'EUR', 'en');
+        $spentFormatted = Number::currency($spent, auth()->user()->currency, auth()->user()->locale);
+        $budgetFormatted = Number::currency($budgetAmount, auth()->user()->currency, auth()->user()->locale);
+        $remainingFormatted = Number::currency($remaining, auth()->user()->currency, auth()->user()->locale);
 
         return "{$typeLabel} Spent: {$spentFormatted} / {$budgetFormatted} • {$remainingFormatted} left";
     }
