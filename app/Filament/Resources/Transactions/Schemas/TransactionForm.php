@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Transactions\Schemas;
 
+use App\Enums\BudgetType;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -63,12 +64,36 @@ class TransactionForm
                 TextInput::make('description')
                     ->required(),
                 Select::make('bank_account_id')
-                    ->relationship('bankAccount', 'name', fn ($query) => $query->where('user_id', auth()->id()))
+                    ->relationship('bankAccount', 'name')
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('balance')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                    ])
                     ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'name', fn ($query) => $query->where('user_id', auth()->id())),
+                    ->relationship('category', 'name')
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required(),
+                    ]),
                 Select::make('budget_id')
-                    ->relationship('budget', 'name', fn ($query) => $query->where('user_id', auth()->id())),
+                    ->relationship('budget', 'name')
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('amount')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                        Select::make('type')
+                            ->options(BudgetType::class)
+                            ->default('fixed')
+                            ->required(),
+                    ]),
                 Textarea::make('note')
                     ->columnSpanFull(),
             ]);
